@@ -1,6 +1,6 @@
 import Script from 'next/script';
 import { ThemeProvider } from 'next-themes';
-import { Footer, Navbar } from '../components';
+import { Footer, Navbar } from '../components/index';
 import '../styles/globals.css';
 
 const Marketplace = ({ Component, pageProps }) => (
