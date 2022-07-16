@@ -32,3 +32,8 @@ contract NFTMarketplace is ERC721URIStorage {
       uint256 price,
       bool sold
     );
+    constructor(){
+        owner = payable(msg.sender);
+    }
+
+}
