@@ -32,6 +32,23 @@ export const NFTProvider = ({ children }) => {
 
     return items;
   };
+  const createSale = async (url, formInputPrice, isReselling, id) => {
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const price = ethers.utils.parseUnits(formInputPrice, 'ether');
+    const contract = fetchContract(signer);
+    const listingPrice = await contract.getListingPrice();
+
+    const transaction = !isReselling
+      ? await contract.createToken(url, price, { value: listingPrice.toString() })
+      : await contract.resellToken(id, price, { value: listingPrice.toString() });
+
+    setIsLoadingNFT(true);
+    await transaction.wait();
+  };
 
   const connectWallet = async () => {
     if (!window.ethereum) return alert('Please install MetaMask.');
