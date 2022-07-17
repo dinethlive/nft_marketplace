@@ -3,5 +3,6 @@ import Footer from './Footer';
 import Button from './Button';
 import Banner from './Banner';
 import Input from './Input';
+import NFTCard from './NFTCard';
 
-export { Navbar, Footer, Button, Banner, Input };
+export { Navbar, Footer, Button, Banner, Input, NFTCard };
