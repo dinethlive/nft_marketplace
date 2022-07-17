@@ -73,6 +73,18 @@ export const NFTProvider = ({ children }) => {
     window.location.reload();
   };
 
+  const checkIfWalletIsConnect = async () => {
+    if (!window.ethereum) return alert('Please install MetaMask.');
+
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+    if (accounts.length) {
+      setCurrentAccount(accounts[0]);
+    } else {
+      console.log('No accounts found');
+    }
+  };
+
   useEffect(() => {
     // checkIfWalletIsConnect();
   }, []);
