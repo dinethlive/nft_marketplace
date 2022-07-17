@@ -1,16 +1,32 @@
 import { useEffect, useState, useContext } from 'react';
 
 import { NFTContext } from '../context/NFTContext';
-import { NFTCard } from '../components/index';
+import { Loader, NFTCard } from '../components/index';
 
 const CreatorDashboard = () => {
+  const { fetchMyNFTsOrCreatedNFTs } = useContext(NFTContext);
   const [nfts, setNfts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMyNFTsOrCreatedNFTs('fetchItemsListed')
+      .then((items) => {
+        setNfts(items);
+        setIsLoading(false);
+      });
+  }, []);
 
   if (isLoading) {
     return (
       <div className="flexStart min-h-screen">
-        {/* <Loader /> */}
+        <Loader />
+      </div>
+    );
+  }
+  if (isLoading) {
+    return (
+      <div className="flexStart min-h-screen">
+        <Loader />
       </div>
     );
   }
