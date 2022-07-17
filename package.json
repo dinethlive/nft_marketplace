@@ -1,5 +1,5 @@
 {
-  "name": "cnft_marketplace",
+  "name": "nft_marketplace",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,16 +9,19 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@openzeppelin/contracts": "4.5.0",
+    "@nomiclabs/hardhat-ethers": "^2.0.5",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "axios": "0.26.0",
-    "ipfs-http-client": "56.0.1",
+    "@openzeppelin/contracts": "^4.5.0",
+    "axios": "^0.26.0",
+    "ethers": "^5.5.4",
+    "hardhat": "^2.9.0",
+    "ipfs-http-client": "^56.0.1",
     "next": "12.1.0",
-    "next-themes": "0.1.1",
+    "next-themes": "^0.1.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "react-dropzone": "12.0.4",
-    "web3modal": "1.9.5"
+    "react-dropzone": "^12.0.4",
+    "web3modal": "^1.9.5"
   },
   "devDependencies": {
     "@nomiclabs/hardhat-ethers": "^2.1.0",
