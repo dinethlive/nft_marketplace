@@ -86,7 +86,7 @@ export const NFTProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    // checkIfWalletIsConnect();
+    checkIfWalletIsConnect();
   }, []);
   return (
     <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, fetchNFTs }}>
