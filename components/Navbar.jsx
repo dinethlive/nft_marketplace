@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
 import Link from 'next/link';
 import images from '../assets';
+import Button from './Button';
+import { NFTContext } from '../context/NFTContext';
 
 const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
   const generateLink = (i) => {
@@ -39,6 +41,48 @@ const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
       ))}
     </ul>
   );
+};
+const ButtonGroup = ({ setActive, router }) => {
+  const { connectWallet, currentAccount } = useContext(NFTContext);
+
+  return currentAccount ? (
+    <div className="flexCenter">
+      <Button
+        btnName="Create"
+        btnType="primary"
+        classStyles="mx-2 rounded-xl"
+        handleClick={() => {
+          setActive('');
+          router.push('/create-nft');
+        }}
+      />
+    </div>
+  ) : (
+    <Button
+      btnName="Connect"
+      btnType="outline"
+      classStyles="mx-2 rounded-lg"
+      handleClick={connectWallet}
+    />
+  );
+};
+const checkActive = (active, setActive, router) => {
+  switch (router.pathname) {
+    case '/':
+      if (active !== 'Explore NFTs') setActive('Explore NFTs');
+      break;
+    case '/created-nfts':
+      if (active !== 'Listed NFTs') setActive('Listed NFTs');
+      break;
+    case '/my-nfts':
+      if (active !== 'My NFTs') setActive('My NFTs');
+      break;
+    case '/create-nft':
+      if (active !== '') setActive('');
+      break;
+    default:
+      setActive('');
+  }
 };
 
 const Navbar = () => {
