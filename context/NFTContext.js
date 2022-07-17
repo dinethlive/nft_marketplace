@@ -6,9 +6,33 @@ import axios from 'axios';
 import { MarketAddress, MarketAddressABI } from './constants';
 
 export const NFTContext = React.createContext();
+
+const fetchContract = (signerOrProvider) => new ethers.Contract(MarketAddress, MarketAddressABI, signerOrProvider);
+
 export const NFTProvider = ({ children }) => {
   const nftCurrency = 'ETH';
   const [currentAccount, setCurrentAccount] = useState('');
+  const [isLoadingNFT, setIsLoadingNFT] = useState(false);
+
+  const fetchNFTs = async () => {
+    setIsLoadingNFT(false);
+
+    const provider = new ethers.providers.JsonRpcProvider();
+    const contract = fetchContract(provider);
+
+    const data = await contract.fetchMarketItems();
+
+    const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+      const tokenURI = await contract.tokenURI(tokenId);
+      const { data: { image, name, description } } = await axios.get(tokenURI);
+      const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
+
+      return { price, tokenId: tokenId.toNumber(), id: tokenId.toNumber(), seller, owner, image, name, description, tokenURI };
+    }));
+
+    return items;
+  };
+
   const connectWallet = async () => {
     if (!window.ethereum) return alert('Please install MetaMask.');
 
@@ -22,7 +46,7 @@ export const NFTProvider = ({ children }) => {
     // checkIfWalletIsConnect();
   }, []);
   return (
-    <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount }}>
+    <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, fetchNFTs }}>
       {children}
     </NFTContext.Provider>
   );
