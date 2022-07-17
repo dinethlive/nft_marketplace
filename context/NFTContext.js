@@ -32,6 +32,29 @@ export const NFTProvider = ({ children }) => {
 
     return items;
   };
+
+  const fetchMyNFTsOrCreatedNFTs = async (type) => {
+    setIsLoadingNFT(false);
+
+    const web3Modal = new Web3Modal();
+    const connection = await web3Modal.connect();
+    const provider = new ethers.providers.Web3Provider(connection);
+    const signer = provider.getSigner();
+
+    const contract = fetchContract(signer);
+    const data = type === 'fetchItemsListed' ? await contract.fetchItemsListed() : await contract.fetchMyNFTs();
+
+    const items = await Promise.all(data.map(async ({ tokenId, seller, owner, price: unformattedPrice }) => {
+      const tokenURI = await contract.tokenURI(tokenId);
+      const { data: { image, name, description } } = await axios.get(tokenURI);
+      const price = ethers.utils.formatUnits(unformattedPrice.toString(), 'ether');
+
+      return { price, tokenId: tokenId.toNumber(), seller, owner, image, name, description, tokenURI };
+    }));
+
+    return items;
+  };
+
   const createSale = async (url, formInputPrice, isReselling, id) => {
     const web3Modal = new Web3Modal();
     const connection = await web3Modal.connect();
@@ -89,7 +112,7 @@ export const NFTProvider = ({ children }) => {
     checkIfWalletIsConnect();
   }, []);
   return (
-    <NFTContext.Provider value={{ nftCurrency, connectWallet, currentAccount, fetchNFTs }}>
+    <NFTContext.Provider value={{ nftCurrency, buyNft, createSale, fetchNFTs, fetchMyNFTsOrCreatedNFTs, connectWallet, currentAccount, isLoadingNFT }}>
       {children}
     </NFTContext.Provider>
   );
