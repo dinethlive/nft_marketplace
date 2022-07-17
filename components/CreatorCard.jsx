@@ -4,7 +4,7 @@ import Image from 'next/image';
 import images from '../assets';
 import { NFTContext } from '../context/NFTContext';
 
-const CreatorCard = ({ rank, creatorImage, creatorName, creatorEths }) =>
+const CreatorCard = ({ rank, creatorImage, creatorName, creatorEths }) => {
   const { nftCurrency } = useContext(NFTContext);
 
   return (
@@ -39,4 +39,5 @@ const CreatorCard = ({ rank, creatorImage, creatorName, creatorEths }) =>
       </div>
     </div>
   );
+};
 export default CreatorCard;

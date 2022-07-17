@@ -1,5 +1,4 @@
 import { useContext } from 'react';
-
 import { NFTContext } from '../context/NFTContext';
 
 const Input = ({ inputType, title, placeholder, handleClick }) => {
