@@ -1,8 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useTheme } from 'next-themes';
 import Image from 'next/image';
-
-import { CreatorCard, NFTCard, Banner } from '../components/index';
+import { CreatorCard, NFTCard, Banner, Loader } from '../components/index';
 import { NFTContext } from '../context/NFTContext';
 import { getCreators } from '../utils/getTopCreators';
 import { shortenAddress } from '../utils/shortenAddress';
@@ -22,14 +21,14 @@ const Home = () => {
 
   const { theme } = useTheme();
 
-  useEffect(() => {
-    fetchNFTs()
-      .then((items) => {
-        setNfts(items.reverse());
-        setNftsCopy(items);
-        setIsLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetchNFTs()
+  //     .then((items) => {
+  //       setNfts(items.reverse());
+  //       setNftsCopy(items);
+  //       setIsLoading(false);
+  //     });
+  // }, []);
 
   useEffect(() => {
     const sortedNfts = [...nfts];

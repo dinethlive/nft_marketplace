@@ -1,9 +1,9 @@
 import { useContext } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-
 import images from '../assets';
 import { NFTContext } from '../context/NFTContext';
+import { shortenAddress } from '../utils/shortenAddress';
 
 const NFTCard = ({ nft, onProfilePage }) => {
   const { nftCurrency } = useContext(NFTContext);
