@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react';
 
-function my-nfts() {
-  return (
-    <div>my-nfts</div>
-  )
-}
+import { NFTContext } from '../context/NFTContext';
+import { Loader, NFTCard } from '../components/index';
 
-export default my-nfts;
+const MyNFTs = () => (
+  <div>MyNFTs</div>
+);
+
+export default MyNFTs;
