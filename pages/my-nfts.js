@@ -2,13 +2,24 @@ import React, { useEffect, useState, useContext } from 'react';
 import Image from 'next/image';
 import images from '../assets';
 import { NFTContext } from '../context/NFTContext';
-import { Loader, NFTCard, Banner } from '../components/index';
+import { Loader, NFTCard, Banner, SearchBar } from '../components/index';
 import { shortenAddress } from '../utils/shortenAddress';
 
 const MyNFTs = () => {
   const { fetchMyNFTsOrCreatedNFTs, currentAccount } = useContext(NFTContext);
   const [nfts, setNfts] = useState([]);
+  const [nftsCopy, setNftsCopy] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [activeSelect, setActiveSelect] = useState('Recently Added');
+
+  useEffect(() => {
+    fetchMyNFTsOrCreatedNFTs('fetchMyNFTs')
+      .then((items) => {
+        setNfts(items);
+        setNftsCopy(items);
+        setIsLoading(false);
+      });
+  }, []);
 
   if (isLoading) {
     return (
@@ -31,8 +42,22 @@ const MyNFTs = () => {
           </div>
           <p className="font-poppins dark:text-white text-nft-black-1 font-semibold text-2xl mt-6">{shortenAddress(currentAccount)}</p>
         </div>
-      </div>
 
+      </div>
+      {(!isLoading && nfts.length === 0) ? (
+        <div className="flexCenter sm:p-4 p-16">
+          <h1 className="font-poppins dark:text-white text-nft-black-1 text-3xl font-extrabold">No NFTs owned</h1>
+        </div>
+      ) : (
+        <div className="sm:px-4 p-12 w-full minmd:w-4/5 flexCenter flex-col">
+          <div className="flex-1 w-full flex flex-row sm:flex-col px-4 xs:px-0 minlg:px-8">
+            <SearchBar activeSelect={activeSelect} setActiveSelect={setActiveSelect} handleSearch={onHandleSearch} clearSearch={onClearSearch} />
+          </div>
+          <div className="mt-3 w-full flex flex-wrap">
+            {nfts.map((nft) => <NFTCard key={`nft-${nft.tokenId}`} nft={nft} onProfilePage />)}
+          </div>
+        </div>
+      )}
     </div>
 
   );
