@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 import Image from 'next/image';
 import Link from 'next/link';
 import images from '../assets';
-import Button from './Button';
+
 import { NFTContext } from '../context/NFTContext';
+import Button from './Button';
 
 const MenuItems = ({ isMobile, active, setActive, setIsOpen }) => {
   const generateLink = (i) => {
@@ -185,6 +186,7 @@ const Navbar = () => {
               <MenuItems active={active} setActive={setActive} isMobile setIsOpen={setIsOpen} />
             </div>
             <div className="p-4 border-t dark:border-nft-black-1 border-nft-gray-1" />
+            <ButtonGroup setActive={setActive} router={router} />
           </div>
         )}
       </div>
